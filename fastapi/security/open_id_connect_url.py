@@ -18,6 +18,7 @@ class OpenIdConnect(SecurityBase):
         self.model = OpenIdConnectModel(openIdConnectUrl=openIdConnectUrl)
         self.scheme_name = scheme_name or self.__class__.__name__
         self.auto_error = auto_error
+        self.use_scopes = True
 
     async def __call__(self, request: Request) -> Optional[str]:
         authorization: str = request.headers.get("Authorization")

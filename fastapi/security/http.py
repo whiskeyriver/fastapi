@@ -24,11 +24,17 @@ class HTTPAuthorizationCredentials(BaseModel):
 
 class HTTPBase(SecurityBase):
     def __init__(
-        self, *, scheme: str, scheme_name: Optional[str] = None, auto_error: bool = True
+        self,
+        *,
+        scheme: str,
+        scheme_name: Optional[str] = None,
+        auto_error: bool = True,
+        use_scopes: bool = False,
     ):
         self.model = HTTPBaseModel(scheme=scheme)
         self.scheme_name = scheme_name or self.__class__.__name__
         self.auto_error = auto_error
+        self.use_scopes = use_scopes
 
     async def __call__(
         self, request: Request
@@ -98,10 +104,12 @@ class HTTPBearer(HTTPBase):
         bearerFormat: Optional[str] = None,
         scheme_name: Optional[str] = None,
         auto_error: bool = True,
+        use_scopes: bool = False,
     ):
         self.model = HTTPBearerModel(bearerFormat=bearerFormat)
         self.scheme_name = scheme_name or self.__class__.__name__
         self.auto_error = auto_error
+        self.use_scopes = use_scopes
 
     async def __call__(
         self, request: Request
